@@ -169,11 +169,19 @@ void Frame::setNewInitCoordinate()
       const auto &pt = (*_cloud)(w,h);
       if (pt.z>0.1 && _fg_mask.at<uchar>(h,w)>0)
       {
+        // std::cout << "pt.z: " << pt.z << std::endl;
+        // std::cout << "pt.x: " << pt.x << " pt.y: " << pt.y << " pt.z: " << pt.z << std::endl;
         cloud->points.push_back(pt);
       }
     }
   }
+  // std::cout << "cloud->points.size(): " << cloud->points.size() << std::endl;
+  // std::cout << "debug_dir: " << debug_dir << std::endl;
   pcl::io::savePLYFile(fmt::format("{}/cloud_init.ply", debug_dir), *cloud);
+  cloud->width = cloud->points.size();
+  cloud->height = 1;
+  cloud->is_dense = false;
+  pcl::io::savePLYFile(fmt::format("{}/cloud_init_1.ply", debug_dir), *cloud);
   Utils::outlierRemovalStatistic(cloud,cloud,3,30);
   pcl::io::savePLYFile(fmt::format("{}/cloud_for_init_coord.ply", debug_dir), *cloud);
   Eigen::MatrixXf mat = cloud->getMatrixXfMap();  // (D,N)
@@ -278,8 +286,12 @@ void Frame::depthToCloudAndNormals()
     for (int col=0;col<3;col++)
     {
       K_inv_data(row,col) = K_inv(row,col);
+      // std::cout << "K_inv(" << row << "," << col << "): " << _K(row,col) << std::endl;
+      // std::cout << "K_inv_data(" << row << "," << col << "): " << K_inv_data(row,col) << std::endl;
     }
   }
+
+  // std::cout << "K_inv_data: " << K_inv_data << std::endl;
   CUDAImageUtil::convertDepthFloatToCameraSpaceFloat4(xyz_map_gpu, _depth_gpu, K_inv_data, _W, _H);
 
   CUDAImageUtil::computeNormals(_normal_gpu, xyz_map_gpu, _W, _H);

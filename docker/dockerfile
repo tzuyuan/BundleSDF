@@ -9,7 +9,7 @@ ARG EIGEN_VERSION_MINOR=4
 ARG EIGEN_VERSION_PATCH=0
 
 ARG OPENCV_VERSION_MAJOR=4
-ARG OPENCV_VERSION_MINOR=11
+ARG OPENCV_VERSION_MINOR=12
 ARG OPENCV_VERSION_PATCH=0
 
 ARG PCL_VERSION_MAJOR=1
@@ -115,12 +115,12 @@ RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends \
 
 # Install cmake
 RUN cd / &&\
-wget http://www.cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}.tar.gz &&\
-tar xf cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}.tar.gz &&\
-cd cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH} &&\
-./configure &&\
-make &&\
-make install
+    wget http://www.cmake.org/files/v${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}/cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}.tar.gz &&\
+    tar xf cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH}.tar.gz &&\
+    cd cmake-${CMAKE_VERSION_MAJOR}.${CMAKE_VERSION_MINOR}.${CMAKE_VERSION_PATCH} &&\
+    ./configure &&\
+    make &&\
+    make install
 
 
 # Install Eigen
@@ -143,41 +143,42 @@ RUN cd / && \
     mkdir -p /opencv/build && \
     cd /opencv/build && \
     cmake ..  -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_CUDA_STUBS=OFF \
-        -DBUILD_DOCS=OFF \
-        -DWITH_MATLAB=OFF \
-        -Dopencv_dnn_BUILD_TORCH_IMPORTE=OFF \
-        -DCUDA_FAST_MATH=ON \
-        -DMKL_WITH_OPENMP=ON \
-        -DOPENCV_ENABLE_NONFREE=ON \
-        -DWITH_OPENMP=ON \
-        -DWITH_QT=ON \
-        -DWITH_OPENEXR=ON \
-        -DENABLE_PRECOMPILED_HEADERS=OFF \
-        -DBUILD_opencv_cudacodec=OFF \
-        -DINSTALL_PYTHON_EXAMPLES=OFF \
-        -DWITH_TIFF=OFF \
-        -DWITH_WEBP=OFF \
-        -DWITH_FFMPEG=ON \
-        -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-        -DCMAKE_CXX_FLAGS=-std=c++17 \
-        -DENABLE_CXX11=OFF \
-        -DBUILD_opencv_xfeatures2d=OFF \
-        -DOPENCV_DNN_OPENCL=OFF \
-        -DWITH_CUDA=ON \
-        -DWITH_OPENCL=OFF \
-        -DBUILD_opencv_wechat_qrcode=OFF \
-        -DCMAKE_CXX_STANDARD=17 \
-        -DCMAKE_CXX_STANDARD_REQUIRED=ON \
-        -DOPENCV_CUDA_OPTIONS_opencv_test_cudev=-std=c++17 \
-        -DCUDA_ARCH_BIN="7.0 7.5 8.0 8.6 9.0" \
-        -DCMAKE_INSTALL_PREFIX=/usr/local \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        -DINSTALL_PKGCONFIG=ON \
-        -DOPENCV_GENERATE_PKGCONFIG=ON \
-        -DPKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
-        -DINSTALL_PYTHON_EXAMPLES=OFF \
-        -DINSTALL_C_EXAMPLES=OFF && \
+    -DCUDA_NVCC_FLAGS="--forward-unknown-to-host-compiler" \
+    -DBUILD_CUDA_STUBS=OFF \
+    -DBUILD_DOCS=OFF \
+    -DWITH_MATLAB=OFF \
+    -Dopencv_dnn_BUILD_TORCH_IMPORTER=OFF \
+    -DCUDA_FAST_MATH=ON \
+    -DMKL_WITH_OPENMP=ON \
+    -DOPENCV_ENABLE_NONFREE=ON \
+    -DWITH_OPENMP=ON \
+    -DWITH_QT=ON \
+    -DWITH_OPENEXR=ON \
+    -DENABLE_PRECOMPILED_HEADERS=OFF \
+    -DBUILD_opencv_cudacodec=OFF \
+    -DINSTALL_PYTHON_EXAMPLES=OFF \
+    -DWITH_TIFF=OFF \
+    -DWITH_WEBP=OFF \
+    -DWITH_FFMPEG=ON \
+    -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+    -DCMAKE_CXX_FLAGS=-std=c++17 \
+    -DENABLE_CXX11=OFF \
+    -DBUILD_opencv_xfeatures2d=OFF \
+    -DOPENCV_DNN_OPENCL=OFF \
+    -DWITH_CUDA=ON \
+    -DWITH_OPENCL=OFF \
+    -DBUILD_opencv_wechat_qrcode=OFF \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+    -DOPENCV_CUDA_OPTIONS_opencv_test_cudev=-std=c++17 \
+    -DCUDA_ARCH_BIN="8.9" \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DINSTALL_PKGCONFIG=ON \
+    -DOPENCV_GENERATE_PKGCONFIG=ON \
+    -DPKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
+    -DINSTALL_PYTHON_EXAMPLES=OFF \
+    -DINSTALL_C_EXAMPLES=OFF && \
     make -j$(nproc) && \
     make install && \
     cd / && \
@@ -189,20 +190,20 @@ RUN cd / && \
     mkdir -p /pcl/build && \
     cd /pcl/build && \
     cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_apps=OFF \
-        -DBUILD_GPU=OFF \
-        -DBUILD_CUDA=OFF \
-        -DBUILD_examples=OFF \
-        -DBUILD_global_tests=OFF \
-        -DBUILD_simulation=OFF \
-        -DCUDA_BUILD_EMULATION=OFF \
-        -DCMAKE_CXX_FLAGS=-std=c++17 \
-        -DPCL_ENABLE_SSE=ON \
-        -DPCL_SHARED_LIBS=ON \
-        -DWITH_VTK=OFF \
-        -DPCL_ONLY_CORE_POINT_TYPES=ON \
-        -DPCL_COMMON_WARNINGS=OFF && \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_apps=OFF \
+    -DBUILD_GPU=OFF \
+    -DBUILD_CUDA=OFF \
+    -DBUILD_examples=OFF \
+    -DBUILD_global_tests=OFF \
+    -DBUILD_simulation=OFF \
+    -DCUDA_BUILD_EMULATION=OFF \
+    -DCMAKE_CXX_FLAGS=-std=c++17 \
+    -DPCL_ENABLE_SSE=ON \
+    -DPCL_SHARED_LIBS=ON \
+    -DWITH_VTK=OFF \
+    -DPCL_ONLY_CORE_POINT_TYPES=ON \
+    -DPCL_COMMON_WARNINGS=OFF && \
     make -j$(nproc) && \
     make install && \
     cd / && \
@@ -225,12 +226,12 @@ RUN cd / && \
     mkdir -p /yaml-cpp/build && \
     cd /yaml-cpp/build && \
     cmake .. \
-        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-        -DBUILD_TESTING=OFF \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DINSTALL_GTEST=OFF \
-        -DYAML_CPP_BUILD_TESTS=OFF \
-        -DYAML_BUILD_SHARED_LIBS=ON && \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+    -DBUILD_TESTING=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DINSTALL_GTEST=OFF \
+    -DYAML_CPP_BUILD_TESTS=OFF \
+    -DYAML_BUILD_SHARED_LIBS=ON && \
     make -j$(nproc) && \
     make install && \
     cd / && \
