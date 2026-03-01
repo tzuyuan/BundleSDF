@@ -1,0 +1,20 @@
+# Core dependencies for 3D model visualization
+trimesh>=3.9.0
+numpy>=1.20.0
+
+# Interactive visualization
+open3d>=0.13.0
+
+# Static rendering
+pyrender>=0.1.45
+
+# Image processing
+Pillow>=8.0.0
+opencv-python>=4.5.0
+
+# Plotting and analysis
+matplotlib>=3.3.0
+
+# Optional: for advanced features
+# pytinyrenderer  # For lightweight rendering
+# kaolin  # For advanced mesh operations 

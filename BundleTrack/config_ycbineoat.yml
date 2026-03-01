@@ -1,7 +1,7 @@
-data_dir: /home/bowen/debug/ycbineoat
+data_dir: /home/justin/data/ycbineoat
 model_name: textured_simple
 model_dir: ""
-debug_dir: /home/bowen/debug/BundleTrack/
+debug_dir: /home/justin/code/point-to-pose/results/bundlesdf/ycbineoat
 init_pose_dir: ""
 SPDLOG: 2
 port: '5555'

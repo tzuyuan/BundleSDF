@@ -41,7 +41,7 @@ def run_one_video(
     cfg_bundletrack["feature_corres"]["resize"] = 400
     cfg_bundletrack["feature_corres"]["rematch_after_nerf"] = True
     cfg_bundletrack["keyframe"]["min_rot"] = 5
-    cfg_bundletrack["ransac"]["inlier_dist"] = 0.01
+    cfg_bundletrack["ransac"]["inlier_dist"] = 0.005
     cfg_bundletrack["ransac"]["inlier_normal_angle"] = 20
     cfg_bundletrack["ransac"]["max_trans_neighbor"] = 0.02
     cfg_bundletrack["ransac"]["max_rot_deg_neighbor"] = 30
@@ -49,7 +49,7 @@ def run_one_video(
     cfg_bundletrack["ransac"]["max_rot_no_neighbor"] = 10
     cfg_bundletrack["p2p"]["max_dist"] = 0.02
     cfg_bundletrack["p2p"]["max_normal_angle"] = 45
-    cfg_bundletrack["depth_processing"]["zfar"] = 10000000
+    cfg_bundletrack["depth_processing"]["zfar"] = 1.5
     cfg_track_dir = f"{out_folder}/config_bundletrack.yml"
     yaml.dump(cfg_bundletrack, open(cfg_track_dir, "w"))
 

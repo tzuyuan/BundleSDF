@@ -1,7 +1,7 @@
-data_dir: /mnt/9a72c439-d0a7-45e8-8d20-d7a235d02763/DATASET/HO3D_v3/evaluation/SM1
+data_dir: /home/justin/data/HO3D_v3/evaluation/MPM10
 model_name: textured_simple
 model_dir: ""
-debug_dir: /home/justin/code/Manipulator-Software/data/object_mesh/mouse_box_out/
+debug_dir: /home/justin/code/point-to-pose/results/bundlesdf/ho3d 
 init_pose_dir: ""
 SPDLOG: 2
 port: '5555'
@@ -14,7 +14,7 @@ segmentation:
   tolerance: 0.03
 
 depth_processing:
-  zfar: 10000.0
+  zfar: 1.5
   erode:
     radius: 1
     diff: 0.001
